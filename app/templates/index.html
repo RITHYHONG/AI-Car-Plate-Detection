@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Car Plate Number Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/styles.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>AI Car Plate Number Detection</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#upload">Upload</a></li>
+                    <li><a href="#results">Results</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="home" class="section">
+            <h2>Welcome to AI Car Plate Detection</h2>
+            <p>Upload an image to detect and recognize car plate numbers using our advanced AI technology.</p>
+        </section>
+
+        <section id="upload" class="section">
+            <h2>Upload Image</h2>
+            <form action="{{ url_for('detection.upload_image') }}" method="post" enctype="multipart/form-data" class="upload-form">
+                <div class="file-input-wrapper">
+                    <input type="file" name="file" id="file-input" accept="image/*" required>
+                    <label for="file-input" class="btn btn-secondary">Choose File</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload and Detect</button>
+            </form>
+        </section>
+
+        <section id="results" class="section">
+            <h2>Detection Results</h2>
+            <div class="messages">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <div class="results-container">
+                {% if results %}
+                    <ul class="results-list">
+                        {% for result in results %}
+                            <li class="result-item">
+                                <span class="plate-number">{{ result.plate_number }}</span>
+                                <span class="confidence">Confidence: {{ result.confidence }}%</span>
+                                <span class="status {{ result.status | lower }}">{{ result.status }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="no-results">No results to display. Upload an image to start detection.</p>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 AI Car Plate Number Detection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='../static/js/app.js') }}"></script>
+</body>
+</html>

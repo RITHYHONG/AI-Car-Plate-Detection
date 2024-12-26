@@ -1,0 +1,25 @@
+2024-12-24 15:15:45,438 ERROR: Exception on /api/detections [GET] [in /home/kakapo/Python_NU/car-plate-detection/venv1/lib/python3.10/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/home/kakapo/Python_NU/car-plate-detection/venv1/lib/python3.10/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kakapo/Python_NU/car-plate-detection/venv1/lib/python3.10/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kakapo/Python_NU/car-plate-detection/venv1/lib/python3.10/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kakapo/Python_NU/car-plate-detection/venv1/lib/python3.10/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/home/kakapo/Python_NU/car-plate-detection/app/routes/detection.py", line 23, in get_detections
+    detections = Detection.query.order_by(Detection.timestamp.desc()).limit(10).all()
+  File "/home/kakapo/Python_NU/car-plate-detection/venv1/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2673, in all
+    return self._iter().all()  # type: ignore
+  File "/home/kakapo/Python_NU/car-plate-detection/venv1/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "/home/kakapo/Python_NU/car-plate-detection/venv1/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2362, in execute
+    return self._execute_internal(
+  File "/home/kakapo/Python_NU/car-plate-detection/venv1/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2235, in _execute_internal
+    bind = self.get_bind(**bind_arguments)
+  File "/home/kakapo/Python_NU/car-plate-detection/venv1/lib/python3.10/site-packages/flask_sqlalchemy/session.py", line 53, in get_bind
+    engines = self._db.engines
+  File "/home/kakapo/Python_NU/car-plate-detection/venv1/lib/python3.10/site-packages/flask_sqlalchemy/extension.py", line 690, in engines
+    raise RuntimeError(
+RuntimeError: The current Flask app is not registered with this 'SQLAlchemy' instance. Did you forget to call 'init_app', or did you create multiple 'SQLAlchemy' instances?
