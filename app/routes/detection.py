@@ -3,6 +3,7 @@ from app.routes import detection_bp
 from app.database.models import Detection, Ticket, db
 from app.utils.preprocess import save_uploaded_file
 from app.utils.ticket import generate_ticket
+from app.training import DataCollector  # Updated import
 from datetime import datetime
 import os
 from werkzeug.utils import secure_filename
@@ -103,12 +104,23 @@ def upload_image():
             detections = detector.detect(image)
             results = []
             
+            # Create data collector instance
+            data_collector = DataCollector()
+            
             for detection in detections:
                 x, y, w, h = detection['box']
                 cropped_image = image[y:y+h, x:x+w]
                 plate_number = ocr_model.read_text(cropped_image)
                 
                 if plate_number:
+                    # Save training sample
+                    data_collector.save_training_sample(
+                        cropped_image,
+                        plate_number,
+                        (x, y, w, h),
+                        detection['confidence']
+                    )
+                    
                     ticket_id = str(uuid.uuid4())
                     detection_record = Detection(
                         plate_number=plate_number,

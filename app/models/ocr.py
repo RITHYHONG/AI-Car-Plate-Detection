@@ -1,6 +1,6 @@
 import pytesseract
 import cv2
-import numpy as np
+import np
 import logging
 from flask import current_app
 
@@ -10,7 +10,7 @@ class OCR:
         pytesseract.pytesseract.tesseract_cmd = current_app.config['TESSERACT_CMD']
         
         # OCR configuration
-        self.config = '--psm 7 --oem 3 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+        self.config = '--psm 7 --oem 3 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789កខគឃងចឆជឈញដឋឌឍណតថទធនបផពភមយរលវសហអ'
     
     def preprocess_image(self, image):
         # Convert to grayscale
